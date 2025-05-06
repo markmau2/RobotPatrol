@@ -2,6 +2,6 @@
     <!-- My Package launch file -->
     <node pkg="section2" type="find_wall.py" name="find_wall"  output="screen">
     </node>
-   <node pkg="section" type="topic_node.py" name="wall_following"  output="screen">
+   <node pkg="section2" type="topics_node.py" name="wall_following"  output="screen">
     </node>
 </launch>
