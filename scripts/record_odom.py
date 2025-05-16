@@ -4,7 +4,7 @@ import rospy
 import actionlib
 
 from section2.msg import OdomRecordAction, OdomRecordFeedback, OdomRecordResult
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, Point
 from numpy import sqrt
 
 class RecordOdometry(object):
@@ -35,45 +35,48 @@ class RecordOdometry(object):
         rospy.loginfo("/odom subscriber created.")
 
 
-    # Server callback
-    def goal_callback(self, goal):
-        rate = rospy.Rate(1)
-        dist = 0  # Travelled distance
-        success = True
-        i = 0
+# Server callback
+def goal_callback(self, goal):
+    result = OdomRecordResult()
+    odom_readings = Point()
+    my_list = []
+    rate = rospy.Rate(1)
+    dist = 0  # Travelled distance
+    success = True
+    i = 0
+    a = []
+    
+    while dist <= self._dist_one_lap:
+        rospy.loginfo("Saving odometry readings.")
+        # Check if the goal is cancelled
+        if self._as.is_preempt_requested():
+            success = False
+            self._as.set_preempted()
+            break
+        
+        # Saving odometry readins
+        self._odom_readings = Point()
+        self._odom_readings.x = self.position_x
+        self._odom_readings.y = self.position_y
+        self._odom_readings.z = self.orientation_theta
+        
+        result.list_of_odoms.append(odom_readings)
+        print(result.list_of_odoms)
+        
+        # Travelled distance
+        #dist += sqrt( pow( self._result.list_of_odoms[i].[0]] - self._result.list_of_odoms[i-1].[0]], 2) + pow( self._result.list_of_odoms[i].y - self._result.list_of_odoms[i-1].y, 2) ) 
+        dist += 0.25  # Just to evolve the distance
 
-        vec_result_x = []
-        vec_result_y = []
-        vec_result_z = []
+        self._feedback.current_total = dist
+        self._as.publish_feedback(self._feedback)
 
-        while dist <= self._dist_one_lap:
-            # Check if the goal is cancelled
-            if self._as.is_preempt_requested():
-                success = False
-                self._as.set_preempted()
-                break
-            
-            # Saving odometry readins
-            vec_result_x.append(self.position_x)
-            vec_result_y.append(self.position_y)
-            vec_result_z.append(self.orientation_theta)
+        # loop variables
+        i += 1
+        rate.sleep()
 
-            # Travelled distance
-            dist += sqrt( pow( vec_result_x[i] - vec_result_x[i-1], 2) + pow( vec_result_y[i] - vec_result_y[i-1], 2) ) 
-
-            self._feedback.current_total = dist
-            self._as.publish_feedback(self._feedback)
-            # loop variables
-            i += 1
-            rate.sleep()
-
-        if success:
-            print(vec_result_x)
-            self._result.list_of_odoms.x = vec_result_x
-            self._result.list_of_odoms.y = vec_result_y
-            self._result.list_of_odoms.z = vec_result_z
-            self._as.set_succeeded(self._result.result.list_of_odoms)
-            rospy.loginfo("Finishing the action server.")
+    if success:
+        self._as.set_succeeded(result)
+        rospy.loginfo("Finishing the action server.")
 
 
     # Odometry callback
