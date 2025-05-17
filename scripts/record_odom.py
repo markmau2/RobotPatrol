@@ -4,7 +4,8 @@ import rospy
 import actionlib
 
 from section2.msg import OdomRecordAction, OdomRecordFeedback, OdomRecordResult
-from nav_msgs.msg import Odometry, Point
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Point
 from numpy import sqrt
 
 class RecordOdometry(object):
@@ -22,6 +23,8 @@ class RecordOdometry(object):
         # Creating some object parameters
         rospy.loginfo("Initializing the action server.")
         # Action server
+        self.goal_callback = None
+        self.odom_callback = None
         self._as = actionlib.SimpleActionServer("record_odometry_server", OdomRecordAction, execute_cb=self.goal_callback, auto_start=False)
         self._as.start()
         rospy.loginfo("Action server initalized.")
@@ -38,7 +41,7 @@ class RecordOdometry(object):
 # Server callback
 def goal_callback(self, goal):
     result = OdomRecordResult()
-    odom_readings = Point()
+    odom_readings = Odometry()
     my_list = []
     rate = rospy.Rate(1)
     dist = 0  # Travelled distance
@@ -55,7 +58,7 @@ def goal_callback(self, goal):
             break
         
         # Saving odometry readins
-        self._odom_readings = Point()
+        self._odom_readings = Point
         self._odom_readings.x = self.position_x
         self._odom_readings.y = self.position_y
         self._odom_readings.z = self.orientation_theta

@@ -9,16 +9,16 @@ project(section2)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  genmsg
-  std_msgs
   actionlib
   actionlib_msgs
-  message_generation
+  std_msgs
+  geometry_msgs
   nav_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+ find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -74,8 +74,11 @@ add_service_files(
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
-   DEPENDENCIES
-   actionlib_msgs nav_msgs genmsg std_msgs
+   DEPENDENCIES 
+	 actionlib_msgs 
+	 std_msgs 
+	 geometry_msgs
+	 nav_msgs
 
  )
 
@@ -111,7 +114,14 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES services_quiz
-  CATKIN_DEPENDS actionlib_msgs rospy nav_msgs genmsg std_msgs message_runtime
+  CATKIN_DEPENDS   
+  rospy
+  actionlib 
+  std_msgs 
+  geometry_msgs 
+  actionlib_msgs 
+  nav_msgs
+  message_runtime
 #  DEPENDS system_lib
 )
 
@@ -124,6 +134,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library

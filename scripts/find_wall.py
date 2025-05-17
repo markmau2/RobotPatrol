@@ -27,11 +27,11 @@ def my_callback(request):
     
     while not rospy.is_shutdown() and out == 0: 
          # values at 0 degree
-         print ("Right ", data.ranges[0])
+         #print ("Right ", data.ranges[0])
          # values at 90 degree
-         print ("Middle ",data.ranges[360])
+         #print ("Middle ",data.ranges[360])
          # values at 180 degree
-         print ("Left ", data.ranges[719])
+         #print ("Left ", data.ranges[719])
          scan_right = data.ranges[0]  
          scan_middle = data.ranges[360] 
          scan_left = data.ranges[719] 
@@ -41,7 +41,7 @@ def my_callback(request):
                      move.linear.x = -0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Backward0')
+                     #print ('Backward0')
          elif scan_middle == float('inf') and turn == 1:
                 turn = 0
                 if scan_right >= 0.3: #and scan_left == float('inf'):
@@ -49,26 +49,26 @@ def my_callback(request):
                      out = 1
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Turn0')
+                     #print ('Turn0')
                 elif scan_right >= 0.3: #and scan_left >= 0.2:
                      turn = 0
                      out = 1
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Turn0')                
+                     #print ('Turn0')                
          elif scan_middle >= 0.7 and turn == 1:          
                 if scan_right >= 0.3: #and scan_left == float('inf'):
                      turn = 0
                      out = 1
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Turn0')
+                     #print ('Turn0')
                 elif scan_right >= 0.3: #and scan_left >= 0.2:
                      turn = 0
                      out = 1
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Turn0') 
+                     #print ('Turn0') 
 
          elif scan_middle == float('inf') and turn == 0:  
                 turn = 0
@@ -76,30 +76,30 @@ def my_callback(request):
                      move.linear.x = X_Speed #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward0')
+                     #print ('Forward0')
                      turn = 0
                 elif scan_right > 0.3 and scan_right > 0.3:
                      move.linear.x = X_Speed #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward0')
+                     #print ('Forward0')
                 elif scan_right > 0.3 and scan_right < 0.5:
                      move.linear.x = X_Speed #Move the robot with a linear velocity in the x axis
                      move.angular.z = -0.4 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward and turn right0')
+                     #print ('Forward and turn right0')
                      turn = 0
                 elif scan_right < 0.6: #and scan_left >= 0.3:
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.4 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward and turn left0')
+                     #print ('Forward and turn left0')
                      turn = 0
                 elif scan_right == float('inf') and scan_left <= 0.3:
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = -0.4 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward and turn right0')
+                     #print ('Forward and turn right0')
                      turn = 0
          elif scan_middle > 0.7 and turn == 0: 
                 turn = 0
@@ -107,31 +107,31 @@ def my_callback(request):
                      move.linear.x = X_Speed #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward0')
+                     #print ('Forward0')
                      turn = 0
                 elif scan_right >= 0. and scan_right >= 0.5:
                      move.linear.x = X_Speed #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward0')
+                     #print ('Forward0')
                      turn = 0
                 elif scan_right > 0.3 and scan_right < 0.5:
                      move.linear.x = X_Speed #Move the robot with a linear velocity in the x axis
                      move.angular.z = -0.4 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward and turn right0')
+                     #print ('Forward and turn right0')
                      turn = 0
                 elif scan_right < 0.6: #and scan_left >= 0.3:
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.4 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward and turn left0')
+                     #print ('Forward and turn left0')
                      turn = 0
                 elif scan_right == float('inf') and scan_left <= 0.3:
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = -0.4 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
-                     print ('Forward and turn right0')
+                     #print ('Forward and turn right0')
                      turn = 0
          elif scan_middle <= 0.7 and scan_middle > 0.2 and turn == 0:
                 turn = 1
@@ -139,32 +139,32 @@ def my_callback(request):
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.5 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(t)
-                     print ('Turn left1')
+                     #print ('Turn left1')
                      turn = 1
                 elif scan_right == float('inf') and scan_left <= 0.3:
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.5 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(t)
-                     print ('Turn left1')
+                     #print ('Turn left1')
                      turn = 1
                 elif scan_right < 0.2 and scan_left == float('inf'):
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.5 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(t)
-                     print ('Turn left1')
+                     #print ('Turn left1')
                      turn = 1
                 elif scan_right >= 0.3 and scan_left >= 0.3:
                      move.linear.x = 0.0 #Move the robot with a linear velocity in the x axis
                      move.angular.z = 0.5 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(t)
-                     print ('Turn left1')
+                     #print ('Turn left1')
                      turn = 1
          elif scan_middle < 0.6 and turn == 1:
                      rate = rospy.Rate(t)
-                     print ('keep Turning1')
+                     #print ('keep Turning1')
                      turn = 1
          else:
-                     print ('Else')
+                     #print ('Else')
                      move.linear.x = 0.1 #Move the robot with a linear velocity in the x axis
                      #move.angular.z = 0.0 #Move the with an angular velocity in the z axis
                      rate = rospy.Rate(x)
