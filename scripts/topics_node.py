@@ -15,8 +15,8 @@ def callback(msg):
     data = msg
 
 def feedback_callback(feedback):
-    print('[Feedback] image n.%d received'%nImage)
-    nImage += 1    
+    print('[Feedback] ', feedback)
+       
 
 def moved():
     global rate
@@ -45,11 +45,12 @@ def moved():
               result.wallfound = False 
               
     rospy.loginfo("END of Find wall Service call...")
-    rospy.loginfo("Runnig Action server call...")
+
+    
     action_client = actionlib.SimpleActionClient('/record_odometry_server', OdomRecordAction)
     action_client.wait_for_server()
+    rospy.loginfo("Runnig Action server call...")
     goal = OdomRecordGoal()
-
     action_client.send_goal(goal, feedback_cb=feedback_callback)
 
     while not rospy.is_shutdown(): 
